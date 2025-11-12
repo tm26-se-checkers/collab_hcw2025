@@ -1,0 +1,5 @@
+com/checkers/logic/GameServiceUndoEndRestartTest.class
+com/checkers/AppTest.class
+com/checkers/logic/GameServiceRulesTest.class
+com/checkers/model/BoardInitTest.class
+com/checkers/testutil/TestHelpers.class

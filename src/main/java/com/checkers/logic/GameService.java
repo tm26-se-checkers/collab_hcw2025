@@ -2,6 +2,21 @@ package com.checkers.logic;
 
 import com.checkers.model.*;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+/**
+ * GameService: business logic / rules, turn handling, move validation.
+ * Sprint-4 adds:
+ *  - undo last move (unlimited, until no history)
+ *  - end game (user-triggered)
+ *  - restart game (reset to fresh board)
+ *
+ * Notes:
+ *  - No mandatory capture (except continuing an in-progress capture chain)
+ *  - Only kings may move backward
+ *  - Black "forward" uses plain l/r (no 'b')
+ */
 public class GameService {
 
     // direction indices used by Piece helpers
@@ -14,17 +29,54 @@ public class GameService {
     private boolean whiteToMove = true;
     private Piece forcedPieceInChain = null; // if a capture was made and can continue, same piece must move
 
+    // Sprint-2: history for UNDO (snapshot before each move/chain starts)
+    private static final class HistoryEntry {
+        final Board boardCopy;
+        final boolean whiteToMove;
+        HistoryEntry(Board b, boolean turn) { this.boardCopy = b; this.whiteToMove = turn; }
+    }
+    private final Deque<HistoryEntry> history = new ArrayDeque<>();
+
+    // Sprint-2: user-ended flag
+    private boolean userEnded = false;
+
     public Board getBoard() { return board; }
     public boolean isWhiteToMove() { return whiteToMove; }
 
+    public boolean hasUndo() { return !history.isEmpty(); }
+
+    /** Undo the last completed move (or capture chain). No effect if history empty. */
+    public void undo() {
+        if (history.isEmpty() || isGameOver()) return;
+        HistoryEntry e = history.pop();
+        this.board = new Board(e.boardCopy);     // deep copy to avoid aliasing
+        this.whiteToMove = e.whiteToMove;
+        this.forcedPieceInChain = null;          // chain never spans across moves after undo
+    }
+
+    /** Mark the game as ended by user. */
+    public void endGame() {
+        userEnded = true;
+    }
+
+    /** Restart to a fresh board, clear history and flags. */
+    public void restartGame() {
+        board = new Board();
+        whiteToMove = true;
+        forcedPieceInChain = null;
+        history.clear();
+        userEnded = false;
+    }
+
     public boolean isGameOver() {
-        // game ends if one side has no pieces or current side has no legal move (simple sprint-1 end condition)
+        if (userEnded) return true;
         int winner = board.getWinner();
         if (winner != 0) return true;
         return !board.anyLegalMove(whiteToMove ? Color.WHITE : Color.BLACK, forcedPieceInChain);
     }
 
     public String resultText() {
+        if (userEnded) return "Game ended by user.";
         int winner = board.getWinner();
         return switch (winner) {
             case 1 -> "White has captured all opponent pieces. White wins.";
@@ -72,6 +124,8 @@ public class GameService {
     }
 
     public void moveByDirection(int x, int y, int dir) throws IllegalMove {
+        if (isGameOver()) throw new IllegalMove("Game is already over.");
+
         Color toMove = whiteToMove ? Color.WHITE : Color.BLACK;
 
         Piece piece = board.getPiece(x, y);
@@ -86,10 +140,11 @@ public class GameService {
 
         boolean destEmpty = board.getPiece(step[0], step[1]) == null;
 
-        // Simple move (allowed even if some other capture exists elsewhere)
+        // ---- Snapshot BEFORE making any move (so undo reverts the whole move/chain) ----
         if (destEmpty) {
             if (forcedPieceInChain != null)
                 throw new IllegalMove("You must continue the capture chain with the same piece.");
+            snapshot();
             board.movePieceTo(piece, step[0], step[1]);
             board.applyPromotionIfEligible(piece);
             endTurn();
@@ -104,6 +159,9 @@ public class GameService {
         int[] landing = piece.skipOver(step[0], step[1]);
         if (!Board.onBoard(landing[0], landing[1]) || board.getPiece(landing[0], landing[1]) != null)
             throw new IllegalMove("No landing square to complete the capture.");
+
+        // Snapshot once at the start of a capture sequence
+        if (forcedPieceInChain == null) snapshot();
 
         // Execute capture
         board.removePiece(victim);
@@ -122,5 +180,10 @@ public class GameService {
 
     private void endTurn() {
         whiteToMove = !whiteToMove;
+    }
+
+    private void snapshot() {
+        // store deep copy + turn
+        history.push(new HistoryEntry(new Board(board), whiteToMove));
     }
 }
