@@ -39,6 +39,7 @@ public final class TestHelpers {
 
     // ===== GameService wiring =====
     public static void setBoard(GameService g, Board b) { setObj(g, "board", b); }
+
     public static void setTurn(GameService g, boolean whiteToMove) { setObj(g, "whiteToMove", whiteToMove); }
 
     // ===== algebraic helpers =====

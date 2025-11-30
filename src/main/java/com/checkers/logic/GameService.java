@@ -5,21 +5,17 @@ import com.checkers.model.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * GameService: business logic / rules, turn handling, move validation.
- * Sprint-2 features:
- *  - undo last move (unlimited, until history empty)
- *  - end game (user-triggered with confirmation at UI)
+ * Sprint-4 adds:
+ *  - undo last move (unlimited, until no history)
+ *  - end game (user-triggered)
  *  - restart game (reset to fresh board)
  *
- * Rules:
- *  - No mandatory capture globally (players may ignore available captures),
- *    but if a capture chain has started, the SAME piece must continue if possible.
- *  - Only kings may move backward.
- *  - Black "forward" uses plain l/r (no 'b' required).
+ * Notes:
+ *  - No mandatory capture (except continuing an in-progress capture chain)
+ *  - Only kings may move backward
+ *  - Black "forward" uses plain l/r (no 'b')
  */
 public class GameService {
 
@@ -35,7 +31,7 @@ public class GameService {
     private boolean whiteToMove = true;
     private Piece forcedPieceInChain = null; // if a capture was made and can continue, same piece must move
 
-    // history for UNDO (snapshot before each move / at start of a capture chain)
+    // Sprint-2: history for UNDO (snapshot before each move/chain starts)
     private static final class HistoryEntry {
         final Board boardCopy;
         final boolean whiteToMove;
@@ -43,7 +39,7 @@ public class GameService {
     }
     private final Deque<HistoryEntry> history = new ArrayDeque<>();
 
-    // user-ended flag
+    // Sprint-2: user-ended flag
     private boolean userEnded = false;
 
     public Board getBoard() { return board; }
@@ -72,6 +68,31 @@ public class GameService {
     /** Restart to a fresh board; clear history and flags. */
     public void restartGame() {
         log.info("Restarting game: fresh board, history cleared.");
+        board = new Board();
+        whiteToMove = true;
+        forcedPieceInChain = null;
+        history.clear();
+        userEnded = false;
+    }
+
+    public boolean hasUndo() { return !history.isEmpty(); }
+
+    /** Undo the last completed move (or capture chain). No effect if history empty. */
+    public void undo() {
+        if (history.isEmpty() || isGameOver()) return;
+        HistoryEntry e = history.pop();
+        this.board = new Board(e.boardCopy);     // deep copy to avoid aliasing
+        this.whiteToMove = e.whiteToMove;
+        this.forcedPieceInChain = null;          // chain never spans across moves after undo
+    }
+
+    /** Mark the game as ended by user. */
+    public void endGame() {
+        userEnded = true;
+    }
+
+    /** Restart to a fresh board, clear history and flags. */
+    public void restartGame() {
         board = new Board();
         whiteToMove = true;
         forcedPieceInChain = null;
@@ -150,10 +171,7 @@ public class GameService {
     }
 
     public void moveByDirection(int x, int y, int dir) throws IllegalMove {
-        if (isGameOver()) {
-            log.debug("Move rejected: game already over.");
-            throw new IllegalMove("Game is already over.");
-        }
+        if (isGameOver()) throw new IllegalMove("Game is already over.");
 
         Color toMove = whiteToMove ? Color.WHITE : Color.BLACK;
 
@@ -180,15 +198,12 @@ public class GameService {
 
         boolean destEmpty = board.getPiece(step[0], step[1]) == null;
 
-        // ---- Simple move (allowed even if other captures exist elsewhere) ----
+        // ---- Snapshot BEFORE making any move (so undo reverts the whole move/chain) ----
         if (destEmpty) {
             if (forcedPieceInChain != null) {
                 log.debug("Illegal: attempted simple move while in capture chain.");
                 throw new IllegalMove("You must continue the capture chain with the same piece.");
-            }
-            snapshot(); // snapshot before move so undo reverts it
-            log.debug("Move {} {}{} -> {}{}", piece.getColor(),
-                    (char)('a' + x - 1), y, (char)('a' + step[0] - 1), step[1]);
+            snapshot();
             board.movePieceTo(piece, step[0], step[1]);
             boolean wasKing = piece.isKing();
             board.applyPromotionIfEligible(piece);
@@ -220,6 +235,10 @@ public class GameService {
                 (char)('a' + step[0] - 1), step[1],
                 (char)('a' + landing[0] - 1), landing[1]);
 
+        // Snapshot once at the start of a capture sequence
+        if (forcedPieceInChain == null) snapshot();
+
+        // Execute capture
         board.removePiece(victim);
         board.movePieceTo(piece, landing[0], landing[1]);
         board.incrementCapture(toMove);
@@ -249,5 +268,10 @@ public class GameService {
     private void snapshot() {
         history.push(new HistoryEntry(new Board(board), whiteToMove));
         log.trace("Snapshot saved (history size = {}).", history.size());
+    }
+
+    private void snapshot() {
+        // store deep copy + turn
+        history.push(new HistoryEntry(new Board(board), whiteToMove));
     }
 }
