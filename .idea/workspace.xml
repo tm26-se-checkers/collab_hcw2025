@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da91c7dc-c340-4586-93c6-8b8256ce49bd" name="Changes" comment="Implemented features from Sprint 4 together with the tests:&#10;&#10;F2 - Spiel beenden können&#10;F9 - Neues Spiel starten können&#10;F8 - Help&#10;F12 - Rückgängig">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/checkers/model/KingMovementPolicy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/checkers/model/ManMovementPolicy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/checkers/model/MovementPolicy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/checkstyle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j-test.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/checkers/logic/GameServiceUndoEndRestartTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/checkers/test-case-design" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/checkers/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/checkers/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/checkers/logic/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/checkers/logic/GameService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/checkers/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/checkers/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/checkers/model/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/checkers/model/Piece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/checkers/ui/ConsoleUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/checkers/ui/ConsoleUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/checkers/logic/GameServiceRulesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/checkers/logic/GameServiceRulesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/checkers/model/BoardInitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/checkers/model/BoardInitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/checkers/testutil/TestHelpers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/checkers/testutil/TestHelpers.java" afterDir="false" />
-    </list>
+    <list default="true" id="da91c7dc-c340-4586-93c6-8b8256ce49bd" name="Changes" comment="Implemented features from Sprint 5:&#10;&#10;- Design Patterns defined and implemented&#10;- Log4J included&#10;- Check Clean Code Maintenance&#10;- Test Case Design Definition and implementation&#10;- Test Improvements&#10;- OOP Principles check" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,6 +57,7 @@
     "Maven.checkers [verify].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "sprint5",
@@ -142,7 +125,7 @@
       <workItem from="1762199187069" duration="920000" />
       <workItem from="1762964620070" duration="1593000" />
       <workItem from="1762967951559" duration="976000" />
-      <workItem from="1764507694911" duration="4997000" />
+      <workItem from="1764507694911" duration="5298000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented features from Sprint 4 together with the tests:&#10;&#10;F2 - Spiel beenden können&#10;F9 - Neues Spiel starten können&#10;F8 - Help&#10;F12 - Rückgängig">
       <option name="closed" value="true" />
@@ -160,7 +143,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762199379872</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Implemented features from Sprint 5:&#10;&#10;- Design Patterns defined and implemented&#10;- Log4J included&#10;- Check Clean Code Maintenance&#10;- Test Case Design Definition and implementation&#10;- Test Improvements&#10;- OOP Principles check">
+      <option name="closed" value="true" />
+      <created>1764513890888</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1764513890888</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Implemented features from Sprint 5:&#10;&#10;- Design Patterns defined and implemented&#10;- Log4J included&#10;- Check Clean Code Maintenance&#10;- Test Case Design Definition and implementation&#10;- Test Improvements&#10;- OOP Principles check">
+      <option name="closed" value="true" />
+      <created>1764514157258</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1764514157258</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,6 +167,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Implemented features from Sprint 4 together with the tests:&#10;&#10;F2 - Spiel beenden können&#10;F9 - Neues Spiel starten können&#10;F8 - Help&#10;F12 - Rückgängig" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented features from Sprint 4 together with the tests:&#10;&#10;F2 - Spiel beenden können&#10;F9 - Neues Spiel starten können&#10;F8 - Help&#10;F12 - Rückgängig" />
+    <MESSAGE value="Implemented features from Sprint 5:&#10;&#10;- Design Patterns defined and implemented&#10;- Log4J included&#10;- Check Clean Code Maintenance&#10;- Test Case Design Definition and implementation&#10;- Test Improvements&#10;- OOP Principles check" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented features from Sprint 5:&#10;&#10;- Design Patterns defined and implemented&#10;- Log4J included&#10;- Check Clean Code Maintenance&#10;- Test Case Design Definition and implementation&#10;- Test Improvements&#10;- OOP Principles check" />
   </component>
 </project>
