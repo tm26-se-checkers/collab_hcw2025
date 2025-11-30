@@ -1,0 +1,10 @@
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/Main.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/logic/GameService.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/model/Board.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/model/Color.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/model/IllegalMove.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/model/KingMovementPolicy.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/model/ManMovementPolicy.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/model/MovementPolicy.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/model/Piece.java
+/Users/e-025/IdeaProjects/collab_hcw2025/src/main/java/com/checkers/ui/ConsoleUI.java
