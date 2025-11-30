@@ -862,3 +862,71 @@
 2025-11-30 15:42:44.047 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
 2025-11-30 15:42:44.048 DEBUG com.checkers.logic.GameService - Move WHITE a3 -> b4
 2025-11-30 15:42:44.048 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:51:19.830 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:51:19.831 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:51:19.831 INFO  com.checkers.logic.GameService - Restarting game: fresh board, history cleared.
+2025-11-30 15:51:19.832 DEBUG com.checkers.logic.GameService - Undo ignored (historyEmpty=true, gameOver=false)
+2025-11-30 15:51:19.836 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:51:19.836 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:51:19.836 INFO  com.checkers.logic.GameService - Game flagged as ended by user.
+2025-11-30 15:51:19.836 DEBUG com.checkers.logic.GameService - Undo ignored (historyEmpty=false, gameOver=true)
+2025-11-30 15:51:19.837 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:51:19.837 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:51:19.838 INFO  com.checkers.logic.GameService - Undo applied. Restored turn: WHITE
+2025-11-30 15:51:19.839 INFO  com.checkers.logic.GameService - Game flagged as ended by user.
+2025-11-30 15:51:19.839 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:51:19.839 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:51:19.840 DEBUG com.checkers.logic.GameService - Move BLACK e6 -> d5
+2025-11-30 15:51:19.840 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: WHITE
+2025-11-30 15:51:19.840 INFO  com.checkers.logic.GameService - Undo applied. Restored turn: BLACK
+2025-11-30 15:51:19.840 INFO  com.checkers.logic.GameService - Undo applied. Restored turn: WHITE
+2025-11-30 15:51:19.844 DEBUG com.checkers.logic.GameService - Move WHITE g7 -> h8
+2025-11-30 15:51:19.845 INFO  com.checkers.logic.GameService - Promotion: WHITE crowned at h8
+2025-11-30 15:51:19.845 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:51:19.846 DEBUG com.checkers.logic.GameService - Capture BLACK g7 x f6 -> e5
+2025-11-30 15:51:19.846 DEBUG com.checkers.logic.GameService - Capture chain continues for the same piece.
+2025-11-30 15:51:19.846 DEBUG com.checkers.logic.GameService - Capture BLACK e5 x d4 -> c3
+2025-11-30 15:51:19.846 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: WHITE
+2025-11-30 15:51:19.849 DEBUG com.checkers.logic.GameService - Illegal: direction must be 'l' or 'r' (got x)
+2025-11-30 15:51:19.850 DEBUG com.checkers.logic.GameService - Move BLACK b6 -> a5
+2025-11-30 15:51:19.850 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: WHITE
+2025-11-30 15:51:19.850 DEBUG com.checkers.logic.GameService - Move WHITE d4 -> c3
+2025-11-30 15:51:19.850 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:51:19.851 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:51:19.851 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:51:19.852 DEBUG com.checkers.logic.GameService - Move WHITE a3 -> b4
+2025-11-30 15:51:19.852 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:56:18.680 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:56:18.682 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:56:18.682 INFO  com.checkers.logic.GameService - Restarting game: fresh board, history cleared.
+2025-11-30 15:56:18.683 DEBUG com.checkers.logic.GameService - Undo ignored (historyEmpty=true, gameOver=false)
+2025-11-30 15:56:18.687 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:56:18.687 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:56:18.687 INFO  com.checkers.logic.GameService - Game flagged as ended by user.
+2025-11-30 15:56:18.687 DEBUG com.checkers.logic.GameService - Undo ignored (historyEmpty=false, gameOver=true)
+2025-11-30 15:56:18.688 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:56:18.689 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:56:18.689 INFO  com.checkers.logic.GameService - Undo applied. Restored turn: WHITE
+2025-11-30 15:56:18.690 INFO  com.checkers.logic.GameService - Game flagged as ended by user.
+2025-11-30 15:56:18.691 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:56:18.691 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:56:18.691 DEBUG com.checkers.logic.GameService - Move BLACK e6 -> d5
+2025-11-30 15:56:18.691 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: WHITE
+2025-11-30 15:56:18.691 INFO  com.checkers.logic.GameService - Undo applied. Restored turn: BLACK
+2025-11-30 15:56:18.691 INFO  com.checkers.logic.GameService - Undo applied. Restored turn: WHITE
+2025-11-30 15:56:18.696 DEBUG com.checkers.logic.GameService - Move WHITE g7 -> h8
+2025-11-30 15:56:18.696 INFO  com.checkers.logic.GameService - Promotion: WHITE crowned at h8
+2025-11-30 15:56:18.696 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:56:18.697 DEBUG com.checkers.logic.GameService - Capture BLACK g7 x f6 -> e5
+2025-11-30 15:56:18.698 DEBUG com.checkers.logic.GameService - Capture chain continues for the same piece.
+2025-11-30 15:56:18.698 DEBUG com.checkers.logic.GameService - Capture BLACK e5 x d4 -> c3
+2025-11-30 15:56:18.698 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: WHITE
+2025-11-30 15:56:18.699 DEBUG com.checkers.logic.GameService - Illegal: direction must be 'l' or 'r' (got x)
+2025-11-30 15:56:18.701 DEBUG com.checkers.logic.GameService - Move BLACK b6 -> a5
+2025-11-30 15:56:18.702 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: WHITE
+2025-11-30 15:56:18.705 DEBUG com.checkers.logic.GameService - Move WHITE d4 -> c3
+2025-11-30 15:56:18.705 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:56:18.706 DEBUG com.checkers.logic.GameService - Move WHITE c3 -> d4
+2025-11-30 15:56:18.706 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK
+2025-11-30 15:56:18.707 DEBUG com.checkers.logic.GameService - Move WHITE a3 -> b4
+2025-11-30 15:56:18.707 DEBUG com.checkers.logic.GameService - Turn ended. Next to move: BLACK

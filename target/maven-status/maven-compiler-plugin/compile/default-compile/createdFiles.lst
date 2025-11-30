@@ -1,3 +1,9 @@
+com/checkers/model/Board.class
 com/checkers/model/KingMovementPolicy.class
+com/checkers/logic/GameService.class
+com/checkers/logic/GameService$HistoryEntry.class
+com/checkers/Main.class
 com/checkers/model/MovementPolicy.class
+com/checkers/ui/ConsoleUI.class
+com/checkers/model/Piece.class
 com/checkers/model/ManMovementPolicy.class

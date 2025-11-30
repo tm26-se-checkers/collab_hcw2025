@@ -107,18 +107,13 @@ public class ConsoleUI {
         log.info("Game over: {}", result);
     }
 
+    /** Ask the user to confirm with "yes" (case-insensitive). */
     private boolean confirm(String prompt) {
         System.out.print(prompt);
         String ans = in.nextLine();
         boolean yes = ans != null && ans.trim().equalsIgnoreCase("yes");
         log.debug("Confirmation '{}' → {}", prompt.trim(), yes ? "YES" : "NO");
         return yes;
-    }
-
-    private boolean confirm(String prompt) {
-        System.out.print(prompt);
-        String ans = in.nextLine();
-        return ans != null && ans.trim().equalsIgnoreCase("yes");
     }
 
     private void printBoard(Board board) {
@@ -140,7 +135,7 @@ public class ConsoleUI {
                   - Captures (jump over adjacent opponent) are supported.
                   - Multi-capture: if you captured and can capture again, you must continue with the same piece.
                   - There is NO mandatory capture otherwise (you may ignore available captures).
-                
+
                 Turns & Ending:
                   - Two-player local play (White starts).
                   - The game ends automatically if a side has no pieces or the current side has no legal moves.

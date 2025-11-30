@@ -13,7 +13,7 @@
     <property name="user.country" value="AT"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/Users/e-025/Library/Java/JavaVirtualMachines/openjdk-24.0.2+12-54/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/surefire/surefirebooter-20251130154243565_3.jar /Users/e-025/IdeaProjects/collab_hcw2025/target/surefire 2025-11-30T15-42-43_530-jvmRun1 surefire-20251130154243565_1tmp surefire_0-20251130154243565_2tmp"/>
+    <property name="sun.java.command" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/surefire/surefirebooter-20251130155618251_3.jar /Users/e-025/IdeaProjects/collab_hcw2025/target/surefire 2025-11-30T15-56-18_206-jvmRun1 surefire-20251130155618251_1tmp surefire_0-20251130155618251_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/test-classes:/Users/e-025/IdeaProjects/collab_hcw2025/target/classes:/Users/e-025/.m2/repository/org/fusesource/jansi/jansi/2.4.1/jansi-2.4.1.jar:/Users/e-025/.m2/repository/org/apache/commons/commons-lang3/3.14.0/commons-lang3-3.14.0.jar:/Users/e-025/.m2/repository/org/apache/logging/log4j/log4j-api/2.23.1/log4j-api-2.23.1.jar:/Users/e-025/.m2/repository/org/apache/logging/log4j/log4j-core/2.23.1/log4j-core-2.23.1.jar:/Users/e-025/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/e-025/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/e-025/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/e-025/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/e-025/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/e-025/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/e-025/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/e-025/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/surefire/surefirebooter-20251130154243565_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/surefire/surefirebooter-20251130155618251_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="24.0.2+12-54"/>
@@ -64,5 +64,5 @@
     <property name="java.class.version" value="68.0"/>
   </properties>
   <testcase name="board_render_has_axes_and_grid" classname="com.checkers.model.BoardInitTest" time="0.001"/>
-  <testcase name="starts_with_12_white_and_12_black_on_correct_rows" classname="com.checkers.model.BoardInitTest" time="0.001"/>
+  <testcase name="starts_with_12_white_and_12_black_on_correct_rows" classname="com.checkers.model.BoardInitTest" time="0.002"/>
 </testsuite>

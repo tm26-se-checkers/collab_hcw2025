@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.checkers.logic.GameServiceRulesTest" time="0.01" tests="7" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.checkers.logic.GameServiceRulesTest" time="0.012" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="user.country" value="AT"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/Users/e-025/Library/Java/JavaVirtualMachines/openjdk-24.0.2+12-54/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/surefire/surefirebooter-20251130154243565_3.jar /Users/e-025/IdeaProjects/collab_hcw2025/target/surefire 2025-11-30T15-42-43_530-jvmRun1 surefire-20251130154243565_1tmp surefire_0-20251130154243565_2tmp"/>
+    <property name="sun.java.command" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/surefire/surefirebooter-20251130155618251_3.jar /Users/e-025/IdeaProjects/collab_hcw2025/target/surefire 2025-11-30T15-56-18_206-jvmRun1 surefire-20251130155618251_1tmp surefire_0-20251130155618251_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/test-classes:/Users/e-025/IdeaProjects/collab_hcw2025/target/classes:/Users/e-025/.m2/repository/org/fusesource/jansi/jansi/2.4.1/jansi-2.4.1.jar:/Users/e-025/.m2/repository/org/apache/commons/commons-lang3/3.14.0/commons-lang3-3.14.0.jar:/Users/e-025/.m2/repository/org/apache/logging/log4j/log4j-api/2.23.1/log4j-api-2.23.1.jar:/Users/e-025/.m2/repository/org/apache/logging/log4j/log4j-core/2.23.1/log4j-core-2.23.1.jar:/Users/e-025/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/e-025/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/e-025/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/e-025/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/e-025/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/e-025/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/e-025/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/e-025/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/surefire/surefirebooter-20251130154243565_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/e-025/IdeaProjects/collab_hcw2025/target/surefire/surefirebooter-20251130155618251_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="24.0.2+12-54"/>
@@ -63,41 +63,41 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="promotion_to_king_on_back_rank" classname="com.checkers.logic.GameServiceRulesTest" time="0.002">
-    <system-out><![CDATA[15:42:44.039 DEBUG c.c.l.GameService - Move WHITE g7 -> h8
-15:42:44.040 INFO  c.c.l.GameService - Promotion: WHITE crowned at h8
-15:42:44.040 DEBUG c.c.l.GameService - Turn ended. Next to move: BLACK
+  <testcase name="promotion_to_king_on_back_rank" classname="com.checkers.logic.GameServiceRulesTest" time="0.001">
+    <system-out><![CDATA[15:56:18.696 DEBUG c.c.l.GameService - Move WHITE g7 -> h8
+15:56:18.696 INFO  c.c.l.GameService - Promotion: WHITE crowned at h8
+15:56:18.696 DEBUG c.c.l.GameService - Turn ended. Next to move: BLACK
 ]]></system-out>
   </testcase>
   <testcase name="multiple_capture_chain" classname="com.checkers.logic.GameServiceRulesTest" time="0.002">
-    <system-out><![CDATA[15:42:44.042 DEBUG c.c.l.GameService - Capture BLACK g7 x f6 -> e5
-15:42:44.042 DEBUG c.c.l.GameService - Capture chain continues for the same piece.
-15:42:44.042 DEBUG c.c.l.GameService - Capture BLACK e5 x d4 -> c3
-15:42:44.042 DEBUG c.c.l.GameService - Turn ended. Next to move: WHITE
+    <system-out><![CDATA[15:56:18.697 DEBUG c.c.l.GameService - Capture BLACK g7 x f6 -> e5
+15:56:18.698 DEBUG c.c.l.GameService - Capture chain continues for the same piece.
+15:56:18.698 DEBUG c.c.l.GameService - Capture BLACK e5 x d4 -> c3
+15:56:18.698 DEBUG c.c.l.GameService - Turn ended. Next to move: WHITE
 ]]></system-out>
   </testcase>
-  <testcase name="invalid_horizontal_move_rejected" classname="com.checkers.logic.GameServiceRulesTest" time="0.001">
-    <system-out><![CDATA[15:42:44.044 DEBUG c.c.l.GameService - Illegal: direction must be 'l' or 'r' (got x)
+  <testcase name="invalid_horizontal_move_rejected" classname="com.checkers.logic.GameServiceRulesTest" time="0.002">
+    <system-out><![CDATA[15:56:18.699 DEBUG c.c.l.GameService - Illegal: direction must be 'l' or 'r' (got x)
 ]]></system-out>
   </testcase>
-  <testcase name="black_forward_uses_plain_lr" classname="com.checkers.logic.GameServiceRulesTest" time="0.001">
-    <system-out><![CDATA[15:42:44.045 DEBUG c.c.l.GameService - Move BLACK b6 -> a5
-15:42:44.045 DEBUG c.c.l.GameService - Turn ended. Next to move: WHITE
+  <testcase name="black_forward_uses_plain_lr" classname="com.checkers.logic.GameServiceRulesTest" time="0.002">
+    <system-out><![CDATA[15:56:18.701 DEBUG c.c.l.GameService - Move BLACK b6 -> a5
+15:56:18.702 DEBUG c.c.l.GameService - Turn ended. Next to move: WHITE
 ]]></system-out>
   </testcase>
   <testcase name="king_can_move_backward" classname="com.checkers.logic.GameServiceRulesTest" time="0.001">
-    <system-out><![CDATA[15:42:44.046 DEBUG c.c.l.GameService - Move WHITE d4 -> c3
-15:42:44.046 DEBUG c.c.l.GameService - Turn ended. Next to move: BLACK
+    <system-out><![CDATA[15:56:18.705 DEBUG c.c.l.GameService - Move WHITE d4 -> c3
+15:56:18.705 DEBUG c.c.l.GameService - Turn ended. Next to move: BLACK
 ]]></system-out>
   </testcase>
-  <testcase name="white_c3_to_d4_is_valid" classname="com.checkers.logic.GameServiceRulesTest" time="0.0">
-    <system-out><![CDATA[15:42:44.047 DEBUG c.c.l.GameService - Move WHITE c3 -> d4
-15:42:44.047 DEBUG c.c.l.GameService - Turn ended. Next to move: BLACK
+  <testcase name="white_c3_to_d4_is_valid" classname="com.checkers.logic.GameServiceRulesTest" time="0.001">
+    <system-out><![CDATA[15:56:18.706 DEBUG c.c.l.GameService - Move WHITE c3 -> d4
+15:56:18.706 DEBUG c.c.l.GameService - Turn ended. Next to move: BLACK
 ]]></system-out>
   </testcase>
-  <testcase name="may_ignore_available_capture_when_not_in_chain" classname="com.checkers.logic.GameServiceRulesTest" time="0.0">
-    <system-out><![CDATA[15:42:44.048 DEBUG c.c.l.GameService - Move WHITE a3 -> b4
-15:42:44.048 DEBUG c.c.l.GameService - Turn ended. Next to move: BLACK
+  <testcase name="may_ignore_available_capture_when_not_in_chain" classname="com.checkers.logic.GameServiceRulesTest" time="0.001">
+    <system-out><![CDATA[15:56:18.707 DEBUG c.c.l.GameService - Move WHITE a3 -> b4
+15:56:18.707 DEBUG c.c.l.GameService - Turn ended. Next to move: BLACK
 ]]></system-out>
   </testcase>
 </testsuite>

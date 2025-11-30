@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da91c7dc-c340-4586-93c6-8b8256ce49bd" name="Changes" comment="Implemented features from Sprint 5:&#10;&#10;- Design Patterns defined and implemented&#10;- Log4J included&#10;- Check Clean Code Maintenance&#10;- Test Case Design Definition and implementation&#10;- Test Improvements&#10;- OOP Principles check" />
+    <list default="true" id="da91c7dc-c340-4586-93c6-8b8256ce49bd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/checkers/logic/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/checkers/logic/GameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/checkers/ui/ConsoleUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/checkers/ui/ConsoleUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/checkers/logic/GameServiceRulesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/checkers/logic/GameServiceRulesTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/logic/GameService$HistoryEntry.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/logic/GameService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/model/Board.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/model/KingMovementPolicy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/model/ManMovementPolicy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/model/MovementPolicy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/model/Piece.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/checkers/ui/ConsoleUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/logs/checkers.log" beforeDir="false" afterPath="$PROJECT_DIR$/target/logs/checkers.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.checkers.logic.GameServiceRulesTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.checkers.logic.GameServiceRulesTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.checkers.logic.GameServiceUndoEndRestartTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.checkers.logic.GameServiceUndoEndRestartTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.checkers.model.BoardInitTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.checkers.model.BoardInitTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.checkers.logic.GameServiceRulesTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.checkers.logic.GameServiceRulesTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.checkers.logic.GameServiceUndoEndRestartTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.checkers.logic.GameServiceUndoEndRestartTest.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,29 +69,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.Main.executor": "Run",
-    "Maven.checkers [install].executor": "Run",
-    "Maven.checkers [test].executor": "Run",
-    "Maven.checkers [verify].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "sprint5",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.checkers [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.checkers [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.checkers [verify].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sprint5&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.checkers.Main" />
@@ -169,5 +190,16 @@
     <MESSAGE value="Implemented features from Sprint 4 together with the tests:&#10;&#10;F2 - Spiel beenden können&#10;F9 - Neues Spiel starten können&#10;F8 - Help&#10;F12 - Rückgängig" />
     <MESSAGE value="Implemented features from Sprint 5:&#10;&#10;- Design Patterns defined and implemented&#10;- Log4J included&#10;- Check Clean Code Maintenance&#10;- Test Case Design Definition and implementation&#10;- Test Improvements&#10;- OOP Principles check" />
     <option name="LAST_COMMIT_MESSAGE" value="Implemented features from Sprint 5:&#10;&#10;- Design Patterns defined and implemented&#10;- Log4J included&#10;- Check Clean Code Maintenance&#10;- Test Case Design Definition and implementation&#10;- Test Improvements&#10;- OOP Principles check" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/checkers/Main.java</url>
+          <line>5</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
