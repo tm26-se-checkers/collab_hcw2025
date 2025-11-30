@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <property name="severity" value="warning"/>
+
+    <!-- Checker-level checks -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="ignorePattern" value="^package|^import|a href|http://|https://"/>
+    </module>
+
+    <!-- AST-based checks -->
+    <module name="TreeWalker">
+        <!-- Imports & basic style -->
+        <module name="AvoidStarImport"/>
+        <module name="UnusedImports"/>
+        <module name="WhitespaceAround"/>
+        <module name="NeedBraces"/>
+
+        <!-- Naming conventions -->
+        <module name="TypeName"/>
+        <module name="MethodName"/>
+        <module name="ParameterName"/>
+        <module name="MemberName"/>
+        <module name="LocalVariableName"/>
+        <module name="ConstantName"/>
+
+        <!-- Javadoc on public types/methods -->
+        <module name="JavadocType"/>
+        <module name="JavadocMethod">
+            <!-- Modern Checkstyle: use accessModifiers; drop legacy properties -->
+            <property name="accessModifiers" value="public"/>
+            <!-- Allow missing Javadoc while still checking formatting if present -->
+            <property name="allowMissingJavadoc" value="true"/>
+        </module>
+
+        <!-- File/class name alignment -->
+        <module name="OuterTypeFilename"/>
+    </module>
+</module>

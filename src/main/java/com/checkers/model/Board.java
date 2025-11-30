@@ -7,15 +7,39 @@ import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * Board (8×8) holding current pieces and capture counters.
+ * Responsibilities:
+ *  - Initialize standard setup
+ *  - Provide local queries/mutations (get/move/remove/promote)
+ *  - Provide helper queries (can a piece capture? does a side have any move?)
+ *
+ * Game-wide rule orchestration and turn handling are in the logic layer (GameService).
+ */
 public class Board {
 
-    public static final int MIN = 1, MAX = 8;
+    public static final int MIN = 1;
+    public static final int MAX = 8;
+
+    /** Direction table used by local capture checks: 0:FL, 1:FR, 2:BL, 3:BR. */
+    private static final int[][] DIRECTIONS = {
+            {-1, +1}, // FL
+            {+1, +1}, // FR
+            {-1, -1}, // BL
+            {+1, -1}  // BR
+    };
 
     private final List<Piece> pieces = new ArrayList<>();
-    private int whiteCaptures = 0, blackCaptures = 0;
+    private int whiteCaptures = 0;
+    private int blackCaptures = 0;
 
+    /**
+     * Create a standard 8×8 start position:
+     * - White pieces on ranks 1..3 on dark squares
+     * - Black pieces on ranks 6..8 on dark squares
+     * Dark squares are where (x+y) % 2 == 0.
+     */
     public Board() {
-        // Standard 8x8 setup: 12 per side on dark squares (rows 1..3 white, 6..8 black)
         for (int y = MAX; y >= MIN; y--) {
             for (int x = MIN; x <= MAX; x++) {
                 if ((x + y) % 2 == 0) {
@@ -26,7 +50,10 @@ public class Board {
         }
     }
 
-    // Deep copy (kept simple if you later reintroduce undo)
+    /**
+     * Deep copy constructor.
+     * Creates new Piece instances so the cloned Board is independent from {@code other}.
+     */
     public Board(Board other) {
         for (Piece p : other.pieces) {
             pieces.add(new Piece(p.getColor(), p.isKing(), p.getX(), p.getY()));
@@ -35,23 +62,49 @@ public class Board {
         this.blackCaptures = other.blackCaptures;
     }
 
+    /** Is the coordinate inside the board bounds 1..8 × 1..8? */
     public static boolean onBoard(int x, int y) {
         return x >= MIN && x <= MAX && y >= MIN && y <= MAX;
     }
 
+    /**
+     * Return the piece at (x,y), or null if the square is empty.
+     * Complexity is O(n), which is fine for a small board.
+     */
     public Piece getPiece(int x, int y) {
-        for (Piece p : pieces) if (p.getX() == x && p.getY() == y) return p;
+        for (Piece p : pieces) {
+            if (p.getX() == x && p.getY() == y) return p;
+        }
         return null;
     }
 
-    public void removePiece(Piece p) { pieces.remove(p); }
-
-    public void movePieceTo(Piece p, int x, int y) { p.setPos(x, y); }
-
-    public void incrementCapture(Color side) {
-        if (side == Color.WHITE) whiteCaptures++; else blackCaptures++;
+    /** Remove a piece from the board. */
+    public void removePiece(Piece p) {
+        pieces.remove(p);
     }
 
+    /** Move a piece to (x,y) without validating rules; logic layer handles that. */
+    public void movePieceTo(Piece p, int x, int y) {
+        p.setPos(x, y);
+    }
+
+    /**
+     * Increase the capture counter for the side that performed a capture.
+     * Used for winner detection based on captures.
+     */
+    public void incrementCapture(Color side) {
+        if (side == Color.WHITE) {
+            whiteCaptures++;
+        } else {
+            blackCaptures++;
+        }
+    }
+
+    /**
+     * Promote a man to king if it has reached the opponent’s back rank:
+     * - White promotes on rank 8.
+     * - Black promotes on rank 1.
+     */
     public void applyPromotionIfEligible(Piece p) {
         if (!p.isKing()) {
             if (p.getColor() == Color.WHITE && p.getY() == MAX) p.crown();
@@ -59,41 +112,72 @@ public class Board {
         }
     }
 
+    /**
+     * Does the given piece have at least one capture available right now?
+     * <ol>
+     *   <li>For each direction the piece is allowed to move in, inspect the adjacent square.</li>
+     *   <li>If there is an opponent there, compute the landing square two steps away.</li>
+     *   <li>If that landing square is on board and empty, a capture exists.</li>
+     * </ol>
+     * Multi-jump chaining is coordinated by the logic layer.
+     */
     public boolean canPieceCapture(Piece p) {
-        int[][] dirs = {{-1, +1}, {+1, +1}, {-1, -1}, {+1, -1}};
-        for (int i = 0; i < dirs.length; i++) {
-            if (!p.allowsDir(i)) continue;
-            int nx = p.getX() + dirs[i][0];
-            int ny = p.getY() + dirs[i][1];
+        for (int dir = 0; dir < DIRECTIONS.length; dir++) {
+            if (!p.allowsDir(dir)) continue;
+
+            int nx = p.getX() + DIRECTIONS[dir][0];
+            int ny = p.getY() + DIRECTIONS[dir][1];
             if (!onBoard(nx, ny)) continue;
+
             Piece mid = getPiece(nx, ny);
             if (mid == null || mid.getColor() == p.getColor()) continue;
-            int lx = p.getX() + 2 * dirs[i][0];
-            int ly = p.getY() + 2 * dirs[i][1];
-            if (onBoard(lx, ly) && getPiece(lx, ly) == null) return true;
+
+            int lx = p.getX() + 2 * DIRECTIONS[dir][0];
+            int ly = p.getY() + 2 * DIRECTIONS[dir][1];
+            if (onBoard(lx, ly) && getPiece(lx, ly) == null) {
+                return true;
+            }
         }
         return false;
     }
 
-    public boolean anyLegalMove(Color side, Piece forcedPiece) {
-        if (forcedPiece != null) return canPieceCapture(forcedPiece);
-        // if any capture exists for any piece, that's a legal move (but not mandatory)
+    /** Is there any capture available for the given side? */
+    public boolean anyCaptureAvailable(Color side) {
         for (Piece p : pieces) {
             if (p.getColor() != side) continue;
             if (canPieceCapture(p)) return true;
         }
-        // otherwise check simple moves
+        return false;
+    }
+
+    /**
+     * Does the side have any legal move at all?
+     * If a capture chain is in progress (forcedPiece != null), only captures for that piece are considered.
+     * Otherwise, either a capture or a simple diagonal step to an empty square makes a legal move.
+     */
+    public boolean anyLegalMove(Color side, Piece forcedPiece) {
+        if (forcedPiece != null) return canPieceCapture(forcedPiece);
+
+        if (anyCaptureAvailable(side)) return true;
+
         for (Piece p : pieces) {
             if (p.getColor() != side) continue;
-            for (int i = 0; i < 4; i++) {
-                if (!p.allowsDir(i)) continue;
-                int[] step = p.oneStep(i);
+            for (int dir = 0; dir < 4; dir++) {
+                if (!p.allowsDir(dir)) continue;
+                int[] step = p.oneStep(dir);
                 if (step != null && getPiece(step[0], step[1]) == null) return true;
             }
         }
         return false;
     }
 
+    /**
+     * Winner detection by pieces remaining:
+     * @return  1 if Black has no pieces left (White wins),
+     *         -1 if White has no pieces left (Black wins),
+     *          0 otherwise.
+     * Stalemate/no-move is handled by the logic layer via anyLegalMove(...).
+     */
     public int getWinner() {
         long whites = pieces.stream().filter(p -> p.getColor() == Color.WHITE).count();
         long blacks = pieces.stream().filter(p -> p.getColor() == Color.BLACK).count();
@@ -102,7 +186,7 @@ public class Board {
         return 0;
     }
 
-    /** Pretty print board; if colored=true, uses Jansi for white/black pieces. */
+    /** Console rendering (with optional colors). */
     public String render(boolean colored) {
         StringBuilder sb = new StringBuilder();
         for (int y = MAX; y >= MIN; y--) {
@@ -111,9 +195,8 @@ public class Board {
             for (int x = MIN; x <= MAX; x++) {
                 Piece p = getPiece(x, y);
                 if (p != null) {
-                    // Keep men as ⚪ / ⚫ ; keep your previous king symbols as you decided
                     String symbol = p.isKing()
-                            ? (p.getColor() == Color.WHITE ? "♚" : "♔")  // your chosen king symbols
+                            ? (p.getColor() == Color.WHITE ? "♚" : "♔")
                             : (p.getColor() == Color.WHITE ? "⚪" : "⚫");
                     if (colored) {
                         sb.append(" ").append(

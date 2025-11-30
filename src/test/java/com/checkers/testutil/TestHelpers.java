@@ -9,7 +9,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public final class TestHelpers {
-
     private TestHelpers() {}
 
     // ===== Board access via reflection (test-only) =====
@@ -39,17 +38,21 @@ public final class TestHelpers {
     }
 
     // ===== GameService wiring =====
-    public static void setBoard(GameService g, Board b) {
-        setObj(g, "board", b);
-    }
+    public static void setBoard(GameService g, Board b) { setObj(g, "board", b); }
+    public static void setTurn(GameService g, boolean whiteToMove) { setObj(g, "whiteToMove", whiteToMove); }
 
-    public static void setTurn(GameService g, boolean whiteToMove) {
-        setObj(g, "whiteToMove", whiteToMove);
-    }
-
-    // ===== small helpers =====
+    // ===== algebraic helpers =====
     public static int x(String sq) { return (sq.toLowerCase().charAt(0) - 'a') + 1; }
     public static int y(String sq) { return Integer.parseInt(sq.substring(1)); }
+
+    // ===== NEW: keep game from being "already over" in tests =====
+    public static void ensureActiveGame(GameService g, Board b) {
+        List<Piece> ps = pieces(b);
+        boolean hasW = ps.stream().anyMatch(p -> p.getColor() == Color.WHITE);
+        boolean hasB = ps.stream().anyMatch(p -> p.getColor() == Color.BLACK);
+        if (!hasW) add(b, Color.WHITE, x("h1"), y("h1")); // neutral corner spots
+        if (!hasB) add(b, Color.BLACK, x("a8"), y("a8"));
+    }
 
     // ===== reflection utils =====
     private static void setObj(Object target, String field, Object value) {
@@ -57,17 +60,14 @@ public final class TestHelpers {
             Field f = target.getClass().getDeclaredField(field);
             f.setAccessible(true);
             f.set(target, value);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        } catch (Exception e) { throw new RuntimeException(e); }
     }
+
     private static void setInt(Object target, String field, int value) {
         try {
             Field f = target.getClass().getDeclaredField(field);
             f.setAccessible(true);
             f.setInt(target, value);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        } catch (Exception e) { throw new RuntimeException(e); }
     }
 }
