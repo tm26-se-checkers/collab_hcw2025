@@ -1,16 +1,19 @@
 package com.checkers;
 
-import com.checkers.ui.ConsoleUI;
-import org.fusesource.jansi.AnsiConsole;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main {
+    private static final Logger log = LogManager.getLogger(Main.class);
+
     public static void main(String[] args) {
-        // enable ANSI colors
-        AnsiConsole.systemInstall();
+        org.fusesource.jansi.AnsiConsole.systemInstall();
         try {
-            new ConsoleUI().start();
+            log.info("Checkers starting…");
+            new com.checkers.ui.ConsoleUI().start();
+            log.info("Checkers exiting normally.");
         } finally {
-            AnsiConsole.systemUninstall();
+            org.fusesource.jansi.AnsiConsole.systemUninstall();
         }
     }
 }

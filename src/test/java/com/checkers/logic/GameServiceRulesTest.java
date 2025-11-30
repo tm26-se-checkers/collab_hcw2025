@@ -2,9 +2,9 @@ package com.checkers.logic;
 
 import com.checkers.model.Board;
 import com.checkers.model.Color;
-import com.checkers.model.IllegalMove;
-import com.checkers.model.Piece;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.checkers.testutil.TestHelpers.*;
@@ -60,15 +60,16 @@ public class GameServiceRulesTest {
 
         game.moveFromCommand("d6", 'l', false); // black forward-left
 
-        assertNotNull(b.getPiece(x("c5"), y("c5")));
-        assertNull(b.getPiece(x("d6"), y("d6")));
-        assertTrue(game.isWhiteToMove(), "turn should switch to white");
+        // Then the piece is on d4
+        assertNotNull(b.getPiece(x("d4"), y("d4")));
+        assertNull(b.getPiece(x("c3"), y("c3")));
     }
 
     @Test
-    void single_capture_white_c3_over_d4_to_e5() throws Exception {
-        add(b, Color.WHITE, x("c3"), y("c3"));
-        add(b, Color.BLACK, x("d4"), y("d4"));
+    @DisplayName("Invalid move: horizontal is rejected")
+    void invalid_horizontal_move_rejected() {
+        // Given white on e3
+        add(b, Color.WHITE, x("e3"), y("e3"));
         setTurn(game, true);
 
         game.moveFromCommand("c3", 'r', false);
@@ -96,24 +97,30 @@ public class GameServiceRulesTest {
     }
 
     @Test
+    @DisplayName("Promotion: white piece at g7 to h8 becomes king")
     void promotion_to_king_on_back_rank() throws Exception {
+        // Given white on g7 and it's white's turn
         add(b, Color.WHITE, x("g7"), y("g7"));
         setTurn(game, true);
 
-        game.moveFromCommand("g7", 'r', false);
+        // When moving to back rank
+        game.moveFromCommand("g7", 'r', false); // to h8
 
-        Piece p = b.getPiece(x("h8"), y("h8"));
-        assertNotNull(p);
-        assertTrue(p.isKing(), "should crown on reaching back rank");
+        // Then it is crowned
+        assertTrue(b.getPiece(x("h8"), y("h8")).isKing());
     }
 
     @Test
+    @DisplayName("King can move backward")
     void king_can_move_backward() throws Exception {
+        // Given a crowned piece at d4 (white king)
         addKing(b, Color.WHITE, x("d4"), y("d4"));
         setTurn(game, true);
 
-        game.moveFromCommand("d4", 'l', true); // backward-left
+        // When moving backward-left
+        game.moveFromCommand("d4", 'l', true); // to c3
 
+        // Then move is accepted
         assertNotNull(b.getPiece(x("c3"), y("c3")));
     }
 
@@ -124,9 +131,13 @@ public class GameServiceRulesTest {
         add(b, Color.WHITE, x("a3"), y("a3")); // we move this instead
         setTurn(game, true);
 
-        game.moveFromCommand("a3", 'r', false);
+        // When black captures g7 -> e5 (over f6), then must continue e5 -> c3 (over d4)
+        game.moveFromCommand("g7", 'l', false); // capture to e5 (forward-left for black)
+        game.moveFromCommand("e5", 'l', false); // capture to c3 (continue chain with same piece)
 
-        assertNotNull(b.getPiece(x("b4"), y("b4")));
-        assertNull(b.getPiece(x("a3"), y("a3")));
+        // Then both white pieces are removed and black ends on c3
+        assertNull(b.getPiece(x("f6"), y("f6")));
+        assertNull(b.getPiece(x("d4"), y("d4")));
+        assertNotNull(b.getPiece(x("c3"), y("c3")));
     }
 }

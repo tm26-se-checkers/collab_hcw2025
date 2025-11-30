@@ -19,6 +19,8 @@ import java.util.Deque;
  */
 public class GameService {
 
+    private static final Logger log = LogManager.getLogger(GameService.class);
+
     // direction indices used by Piece helpers
     public static final int FL = 0; // forward-left
     public static final int FR = 1; // forward-right
@@ -42,6 +44,36 @@ public class GameService {
 
     public Board getBoard() { return board; }
     public boolean isWhiteToMove() { return whiteToMove; }
+    public boolean hasUndo() { return !history.isEmpty(); }
+
+    /** Undo the last completed move (or entire capture chain). No effect if history empty or game over. */
+    public void undo() {
+        if (history.isEmpty() || isGameOver()) {
+            log.debug("Undo ignored (historyEmpty={}, gameOver={})", history.isEmpty(), isGameOver());
+            return;
+        }
+        HistoryEntry e = history.pop();
+        this.board = new Board(e.boardCopy);   // deep copy to avoid aliasing
+        this.whiteToMove = e.whiteToMove;
+        this.forcedPieceInChain = null;        // chain never spans across moves after undo
+        log.info("Undo applied. Restored turn: {}", whiteToMove ? "WHITE" : "BLACK");
+    }
+
+    /** Mark the game as ended by user. */
+    public void endGame() {
+        userEnded = true;
+        log.info("Game flagged as ended by user.");
+    }
+
+    /** Restart to a fresh board; clear history and flags. */
+    public void restartGame() {
+        log.info("Restarting game: fresh board, history cleared.");
+        board = new Board();
+        whiteToMove = true;
+        forcedPieceInChain = null;
+        history.clear();
+        userEnded = false;
+    }
 
     public boolean hasUndo() { return !history.isEmpty(); }
 
@@ -96,12 +128,21 @@ public class GameService {
         int y = Integer.parseInt(square.substring(1));
 
         Piece piece = board.getPiece(x, y);
-        if (piece == null) throw new IllegalMove("No piece at that square.");
+        if (piece == null) {
+            log.debug("Illegal: no piece at {}", square);
+            throw new IllegalMove("No piece at that square.");
+        }
         Color toMove = isWhiteToMove() ? Color.WHITE : Color.BLACK;
-        if (piece.getColor() != toMove) throw new IllegalMove("It's not that side's turn.");
+        if (piece.getColor() != toMove) {
+            log.debug("Illegal: wrong side to move ({} tried to move {})", toMove, piece.getColor());
+            throw new IllegalMove("It's not that side's turn.");
+        }
 
         char d = Character.toLowerCase(lr);
-        if (d != 'l' && d != 'r') throw new IllegalMove("Direction must be 'l' or 'r'.");
+        if (d != 'l' && d != 'r') {
+            log.debug("Illegal: direction must be 'l' or 'r' (got {})", lr);
+            throw new IllegalMove("Direction must be 'l' or 'r'.");
+        }
 
         boolean backwardRequested = back;
         int dir;
@@ -109,13 +150,19 @@ public class GameService {
         if (piece.getColor() == Color.WHITE) {
             if (!backwardRequested) dir = (d == 'l') ? FL : FR;
             else {
-                if (!piece.isKing()) throw new IllegalMove("Only kings can move backward.");
+                if (!piece.isKing()) {
+                    log.debug("Illegal: non-king white tried to move backward.");
+                    throw new IllegalMove("Only kings can move backward.");
+                }
                 dir = (d == 'l') ? BL : BR;
             }
         } else {
             if (!backwardRequested) dir = (d == 'l') ? BL : BR; // black forward is down the board
             else {
-                if (!piece.isKing()) throw new IllegalMove("Only kings can move backward.");
+                if (!piece.isKing()) {
+                    log.debug("Illegal: non-king black tried to move backward.");
+                    throw new IllegalMove("Only kings can move backward.");
+                }
                 dir = (d == 'l') ? FL : FR;
             }
         }
@@ -129,36 +176,64 @@ public class GameService {
         Color toMove = whiteToMove ? Color.WHITE : Color.BLACK;
 
         Piece piece = board.getPiece(x, y);
-        if (piece == null) throw new IllegalMove("No piece at that square.");
-        if (piece.getColor() != toMove) throw new IllegalMove("It's not that side's turn.");
+        if (piece == null) {
+            log.debug("Illegal: no piece at {}{}", (char)('a' + x - 1), y);
+            throw new IllegalMove("No piece at that square.");
+        }
+        if (piece.getColor() != toMove) {
+            log.debug("Illegal: it's {}'s turn, but {} piece selected.", toMove, piece.getColor());
+            throw new IllegalMove("It's not that side's turn.");
+        }
 
-        if (forcedPieceInChain != null && piece != forcedPieceInChain)
+        if (forcedPieceInChain != null && piece != forcedPieceInChain) {
+            log.debug("Illegal: must continue capture chain with same piece.");
             throw new IllegalMove("You must continue the capture chain with the same piece.");
+        }
 
         int[] step = piece.oneStep(dir);
-        if (step == null) throw new IllegalMove("That direction is not allowed.");
+        if (step == null) {
+            log.debug("Illegal: direction not allowed for this piece (dir={})", dir);
+            throw new IllegalMove("That direction is not allowed.");
+        }
 
         boolean destEmpty = board.getPiece(step[0], step[1]) == null;
 
         // ---- Snapshot BEFORE making any move (so undo reverts the whole move/chain) ----
         if (destEmpty) {
-            if (forcedPieceInChain != null)
+            if (forcedPieceInChain != null) {
+                log.debug("Illegal: attempted simple move while in capture chain.");
                 throw new IllegalMove("You must continue the capture chain with the same piece.");
             snapshot();
             board.movePieceTo(piece, step[0], step[1]);
+            boolean wasKing = piece.isKing();
             board.applyPromotionIfEligible(piece);
+            if (!wasKing && piece.isKing()) {
+                log.info("Promotion: {} crowned at {}{}", piece.getColor(),
+                        (char)('a' + piece.getX() - 1), piece.getY());
+            }
             endTurn();
             return;
         }
 
-        // Attempt capture: adjacent must be enemy; landing must be empty and on board
+        // ---- Attempt capture: adjacent must be enemy; landing must be empty and on board ----
         Piece victim = board.getPiece(step[0], step[1]);
-        if (victim == null || victim.getColor() == piece.getColor())
+        if (victim == null || victim.getColor() == piece.getColor()) {
+            log.debug("Illegal: square blocked or same-color piece at {}{}", (char)('a' + step[0] - 1), step[1]);
             throw new IllegalMove("Square blocked.");
+        }
 
         int[] landing = piece.skipOver(step[0], step[1]);
-        if (!Board.onBoard(landing[0], landing[1]) || board.getPiece(landing[0], landing[1]) != null)
+        if (!Board.onBoard(landing[0], landing[1]) || board.getPiece(landing[0], landing[1]) != null) {
+            log.debug("Illegal: no valid landing square after capture.");
             throw new IllegalMove("No landing square to complete the capture.");
+        }
+
+        if (forcedPieceInChain == null) snapshot(); // snapshot at start of capture sequence
+
+        log.debug("Capture {} {}{} x {}{} -> {}{}", piece.getColor(),
+                (char)('a' + x - 1), y,
+                (char)('a' + step[0] - 1), step[1],
+                (char)('a' + landing[0] - 1), landing[1]);
 
         // Snapshot once at the start of a capture sequence
         if (forcedPieceInChain == null) snapshot();
@@ -167,11 +242,18 @@ public class GameService {
         board.removePiece(victim);
         board.movePieceTo(piece, landing[0], landing[1]);
         board.incrementCapture(toMove);
+
+        boolean wasKing = piece.isKing();
         board.applyPromotionIfEligible(piece);
+        if (!wasKing && piece.isKing()) {
+            log.info("Promotion: {} crowned at {}{}", piece.getColor(),
+                    (char)('a' + piece.getX() - 1), piece.getY());
+        }
 
         // Continue chain if another capture is available for the same piece
         if (board.canPieceCapture(piece)) {
             forcedPieceInChain = piece;
+            log.debug("Capture chain continues for the same piece.");
         } else {
             forcedPieceInChain = null;
             endTurn();
@@ -180,6 +262,12 @@ public class GameService {
 
     private void endTurn() {
         whiteToMove = !whiteToMove;
+        log.debug("Turn ended. Next to move: {}", whiteToMove ? "WHITE" : "BLACK");
+    }
+
+    private void snapshot() {
+        history.push(new HistoryEntry(new Board(board), whiteToMove));
+        log.trace("Snapshot saved (history size = {}).", history.size());
     }
 
     private void snapshot() {

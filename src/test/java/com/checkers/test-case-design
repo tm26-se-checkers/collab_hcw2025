@@ -1,0 +1,59 @@
+# Test Case Design
+
+## Objectives
+- Verify functional requirements of the Checkers game (movement, capture, promotion, board init).
+- Guard against regressions when new features are added (end/restart/undo/help).
+- Keep tests fast and deterministic (unit-level focus).
+
+## Scope (what we test)
+- **Model:** `Board`, `Piece`, movement helpers and capture detection.
+- **Logic:** `GameService` (turn handling, move validation, chain-capture, promotion, undo/end/restart).
+- **UI:** `ConsoleUI` is exercised manually (smoke) because parsing/printing is thin and already covered indirectly through `GameService`.
+
+## Test Levels & Tags
+- **Unit tests** (`@Tag("unit")`): `model` and `logic` packages (default).
+- **Integration tests** (`@Tag("integration")`): not needed currently; add later if you wire DB.
+- **E2E / UI tests**: N/A for console UI.
+
+## Test Techniques
+- **Equivalence classes**
+  - Valid vs invalid moves (diagonal vs horizontal; correct color to move vs wrong color).
+  - Men vs king movement.
+  - Capture possible vs not possible; single vs multi-capture.
+- **Boundary values**
+  - Moves on edges/corners (a1, h8).
+  - Promotion on back ranks (y = 1 or 8).
+- **Stateful sequences**
+  - Multi-capture chains.
+  - Undo across multiple turns.
+  - End/restart mid-game.
+
+## Test Data / Fixtures
+- Use **`TestHelpers`** to:
+  - clear the board, add specific pieces, set turn, wire a custom board into `GameService`.
+  - call `ensureActiveGame` to keep one piece per side so the game is not “already over”.
+
+## Naming & Structure
+- One test class per unit:
+  - `model/BoardInitTest` – initial board and rendering smoke.
+  - `logic/GameServiceRulesTest` – movement, capture, promotion, chain capture.
+  - `logic/GameServiceUndoEndRestartTest` – undo, end game, restart.
+- Test names read as behavior statements (Given/When/Then in comments).
+- Use `@DisplayName` for human-readable test names.
+
+## Coverage Matrix (excerpt)
+| FR / NF | Area | Test(s) |
+|---|---|---|
+| FR: Board init (8×8, 12 each, distinguishable) | `Board` | `BoardInitTest.starts_with_12_white_and_12_black_on_correct_rows`, `board_render_has_axes_and_grid` |
+| FR: Rules (diagonal movement, capture, promotion, kings) | `GameService` | `white_c3_to_d4_is_valid`, `black_forward_uses_plain_lr`, `promotion_to_king_on_back_rank`, `king_can_move_backward`, `multiple_capture_chain` |
+| FR: Only allowed moves (reject invalid) | `GameService` | `invalid_horizontal_move_rejected` |
+| Sprint 2: Undo / End / Restart | `GameService` | `undo_*`, `endGame_*`, `restartGame_*` |
+| NF: No mandatory capture globally; chain capture continues | `GameService` | `may_ignore_available_capture_when_not_in_chain`, `must_continue_chain_with_same_piece` |
+
+## How to run
+```bash
+# all tests + static analysis
+mvn verify
+
+# only unit tests
+mvn -q -Dgroups=unit test    # (if you enable groups mapping to tags)

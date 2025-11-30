@@ -46,6 +46,15 @@ public final class TestHelpers {
     public static int x(String sq) { return (sq.toLowerCase().charAt(0) - 'a') + 1; }
     public static int y(String sq) { return Integer.parseInt(sq.substring(1)); }
 
+    // ===== NEW: keep game from being "already over" in tests =====
+    public static void ensureActiveGame(GameService g, Board b) {
+        List<Piece> ps = pieces(b);
+        boolean hasW = ps.stream().anyMatch(p -> p.getColor() == Color.WHITE);
+        boolean hasB = ps.stream().anyMatch(p -> p.getColor() == Color.BLACK);
+        if (!hasW) add(b, Color.WHITE, x("h1"), y("h1")); // neutral corner spots
+        if (!hasB) add(b, Color.BLACK, x("a8"), y("a8"));
+    }
+
     // ===== reflection utils =====
     private static void setObj(Object target, String field, Object value) {
         try {
