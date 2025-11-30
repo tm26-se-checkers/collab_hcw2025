@@ -2,16 +2,20 @@ package com.checkers.logic;
 
 import com.checkers.model.Board;
 import com.checkers.model.Color;
+import com.checkers.model.Piece;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.checkers.testutil.TestHelpers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Tag("unit")
-@DisplayName("Undo / End / Restart behavior")
+/**
+ * Sprint-4 features in GameService:
+ *  - undo (unlimited until history empty; blocked after game over)
+ *  - end game (user-ended)
+ *  - restart game (fresh board, history cleared)
+ * Ensure board is not "already over" by keeping at least one piece per side.
+ */
 public class GameServiceUndoEndRestartTest {
 
     private GameService game;
@@ -23,42 +27,40 @@ public class GameServiceUndoEndRestartTest {
         b = new Board();
         setBoard(game, b);
         clear(b);
-        ensureActiveGame(game, b);
+
+        // Keep game active initially
+        add(b, Color.WHITE, x("h1"), y("h1"));
+        add(b, Color.BLACK, x("a8"), y("a8"));
     }
 
     @Test
-    @DisplayName("Undo reverts last move when available")
     void undo_reverts_last_move_when_available() throws Exception {
-        // Given white c3 and it's white's turn
         add(b, Color.WHITE, x("c3"), y("c3"));
         setTurn(game, true);
 
-        // When white moves c3->d4 and then undoes
-        game.moveFromCommand("c3", 'r', false);
+        game.moveFromCommand("c3", 'r', false); // to d4
+        assertNotNull(b.getPiece(x("d4"), y("d4")));
+
         game.undo();
 
-        // Then the piece is back on c3
         Board after = game.getBoard();
         assertNull(after.getPiece(x("d4"), y("d4")));
         assertNotNull(after.getPiece(x("c3"), y("c3")));
     }
 
     @Test
-    @DisplayName("Undo works multiple times until history empty")
     void undo_multiple_times_until_history_empty() throws Exception {
-        // Given white c3, black e6; white to move
         add(b, Color.WHITE, x("c3"), y("c3"));
         add(b, Color.BLACK, x("e6"), y("e6"));
         setTurn(game, true);
 
-        // When white c3->d4; black e6->d5; then undo twice
-        game.moveFromCommand("c3", 'r', false);
-        game.moveFromCommand("e6", 'l', false);
+        game.moveFromCommand("c3", 'r', false); // white d4
+        setTurn(game, false);
+        game.moveFromCommand("e6", 'l', false); // black d5
 
         game.undo(); // undo black
         game.undo(); // undo white
 
-        // Then both are at original squares
         Board after = game.getBoard();
         assertNull(after.getPiece(x("d5"), y("d5")));
         assertNull(after.getPiece(x("d4"), y("d4")));
@@ -67,55 +69,46 @@ public class GameServiceUndoEndRestartTest {
     }
 
     @Test
-    @DisplayName("Undo has no effect after user-ended game")
     void undo_has_no_effect_after_user_end() throws Exception {
-        // Given a valid move has been made
         add(b, Color.WHITE, x("c3"), y("c3"));
         setTurn(game, true);
-        game.moveFromCommand("c3", 'r', false);
+        game.moveFromCommand("c3", 'r', false); // to d4
 
-        // When user ends game and tries undo
         game.endGame();
         assertTrue(game.isGameOver());
-        game.undo();
 
-        // Then position is unchanged
+        game.undo(); // should be ignored
+
         Board after = game.getBoard();
         assertNotNull(after.getPiece(x("d4"), y("d4")));
         assertNull(after.getPiece(x("c3"), y("c3")));
     }
 
     @Test
-    @DisplayName("End game sets over flag and result text mentions ended")
     void endGame_marks_over_and_message_mentions_ended() {
-        // Given active game (ensured in setup)
-        assertFalse(game.isGameOver());
+        // Game should NOT be over at start thanks to baseline pieces
+        assertFalse(game.isGameOver(), "game should be active before ending");
 
-        // When ending the game
         game.endGame();
 
-        // Then over and message
         assertTrue(game.isGameOver());
-        assertTrue(game.resultText().toLowerCase().contains("ended"));
+        assertTrue(game.resultText().toLowerCase().contains("ended"), "result should state ended by user");
     }
 
     @Test
-    @DisplayName("Restart resets board, white to move, and clears history")
     void restartGame_resets_board_turn_and_clears_history() throws Exception {
-        // Given a move has been made
         add(b, Color.WHITE, x("c3"), y("c3"));
         setTurn(game, true);
-        game.moveFromCommand("c3", 'r', false); // d4
+        game.moveFromCommand("c3", 'r', false); // to d4
 
-        // When restarting
         game.restartGame();
 
-        // Then we have fresh initial layout and white to move
         Board fresh = game.getBoard();
-        assertNotNull(fresh.getPiece(x("a3"), y("a3")), "initial setup should have a3 occupied by white");
-        assertTrue(game.isWhiteToMove());
+        // spot-check a standard start square (white at a3 is typical for your init pattern)
+        assertNotNull(fresh.getPiece(x("a3"), y("a3")), "fresh board should have white at a3 (initial setup)");
+        assertTrue(game.isWhiteToMove(), "white starts after restart");
 
-        // And undo after restart has no effect (history cleared)
+        // Undo should not change anything (history cleared)
         game.undo();
         assertNotNull(fresh.getPiece(x("a3"), y("a3")));
     }

@@ -36,7 +36,6 @@ public class ConsoleUI {
 
             // ---- Commands (Sprint-2) ----
             if (input.equals("help")) {
-                log.info("Help requested.");
                 printHelp();
                 continue;
             }
@@ -44,17 +43,14 @@ public class ConsoleUI {
             if (input.equals("undo")) {
                 if (game.isGameOver()) {
                     System.out.println("Game is over; cannot undo.");
-                    log.debug("Undo rejected: game already over.");
                     continue;
                 }
                 if (!game.hasUndo()) {
                     System.out.println("Nothing to undo.");
-                    log.debug("Undo rejected: no history.");
                     continue;
                 }
                 game.undo();
                 System.out.println("Undid last move.");
-                log.info("Undo executed.");
                 printBoard(game.getBoard());
                 continue;
             }
@@ -63,11 +59,9 @@ public class ConsoleUI {
                 if (confirm("Are you sure you want to end the game? (yes/no) ")) {
                     game.endGame();
                     System.out.println("Game ended by user.");
-                    log.info("Game ended by user (confirmed).");
                     break; // loop ends because isGameOver() now true
                 } else {
                     System.out.println("Cancelled. Game continues.");
-                    log.info("End game cancelled by user.");
                 }
                 continue;
             }
@@ -76,11 +70,9 @@ public class ConsoleUI {
                 if (confirm("Are you sure you want to restart the game? (yes/no) ")) {
                     game.restartGame();
                     System.out.println("Game restarted.");
-                    log.info("Game restarted by user (confirmed).");
                     printBoard(game.getBoard());
                 } else {
                     System.out.println("Cancelled. Game continues.");
-                    log.info("Restart cancelled by user.");
                 }
                 continue;
             }
@@ -123,6 +115,12 @@ public class ConsoleUI {
         return yes;
     }
 
+    private boolean confirm(String prompt) {
+        System.out.print(prompt);
+        String ans = in.nextLine();
+        return ans != null && ans.trim().equalsIgnoreCase("yes");
+    }
+
     private void printBoard(Board board) {
         // colored output enabled by Jansi in Main
         System.out.println(board.render(true));
@@ -142,7 +140,7 @@ public class ConsoleUI {
                   - Captures (jump over adjacent opponent) are supported.
                   - Multi-capture: if you captured and can capture again, you must continue with the same piece.
                   - There is NO mandatory capture otherwise (you may ignore available captures).
-
+                
                 Turns & Ending:
                   - Two-player local play (White starts).
                   - The game ends automatically if a side has no pieces or the current side has no legal moves.
